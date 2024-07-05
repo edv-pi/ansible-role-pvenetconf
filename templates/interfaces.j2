@@ -1,6 +1,3 @@
-# This file describes the network interfaces available on your system
-# and how to activate them. For more information, see interfaces(5).
-
 # loopback
 auto lo
 iface lo inet loopback
@@ -24,11 +21,31 @@ iface {{ interface.name }} inet static
 iface {{ interface.name }} inet manual
 {% endif %}
 {% if interface.description is defined %}
-#{{ interface.description }}
+# {{ interface.description }}
 {% endif %}
 {% endif %}
-
 {% endfor %}
+
+{% if pve_netif_bond is defined %}
+{% for bond in pve_netif_bond %}
+auto {{ bond.name }}
+iface {{ bond.name }} inet static
+  address {{ bond.address }}
+{% if bond.interfaces is iterable and not bond.interfaces is string %}
+  bond-slaves {{ " ".join(bond.interfaces) }}
+{% else %}
+  bond-slaves {{ bond.interfaces }}
+{% endif %}
+  bond-mode {{ bond.type | default("active-backup") }}
+  bond-{{ bond.linkctrl | default("miimon 100") }}
+{% if bond.type == "802.ad" %}
+  bond-xmit-hash-policy {{ bond.hash_policy | default("layer2") }}
+  bond-lacp-rate {{ bond.lacp_rate | default("1") }}
+{% endif %}
+  mtu {{ bond.mtu | default("1500") }}
+{% endfor %}
+{% endif %}
+{% if pve_netif_bridges is defined %}
 {% for bridge in pve_netif_bridges %}
 auto {{ bridge.name }}
 {% if bridge.address is defined %}
@@ -40,8 +57,8 @@ iface {{ bridge.name }} inet static
 {% else %}
 iface {{ bridge.name }} inet manual
 {% endif %}
-{% if bridge.interfaces is list %}
-  bridge_ports {{ " ".joing(bridge.interfaces) }}
+{% if bridge.interfaces is iterable and not bridge.interfaces is string %}
+  bridge_ports {{ " ".join(bridge.interfaces) }}
 {% else %}
   bridge_ports {{ bridge.interfaces }}
 {% endif %}
@@ -52,10 +69,9 @@ iface {{ bridge.name }} inet manual
   bridge-vids {{ bridge.vlans }}
 {% endif %}
 {% if bridge.description is defined %}
-#{{ bridge.description }}
+# {{ bridge.description }}
 {% endif %}
-
 {% endfor %}
-
+{% endif %}
 # Add support for Proxmox SDN
 source /etc/network/interfaces.d/*

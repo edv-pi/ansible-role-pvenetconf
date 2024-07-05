@@ -1,11 +1,11 @@
 [Match]
-{% if item.mac_address is defined %}
-MACAddress={{ item.mac_address }}
+{% if item.mac is defined %}
+MACAddress={{ item.mac }}
 {% endif %}
 {% if item.driver is defined %}
 Driver={{ item.driver }}
 {% endif %}
 
 [Link]
-Name={{ item.interface_name }}
+Name={{ item.ifname }}
 MACAddressPolicy=persistent

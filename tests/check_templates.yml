@@ -1,0 +1,34 @@
+- hosts: 127.0.0.1
+  vars:
+    pve_netif_alias:
+      - ifname: "physi0"
+        mac: "AA:BB:CC:DD:EE:FF"
+    pve_netif:
+      - name: "physi0"
+        address: "10.0.0.10/24"
+        gateway: "10.0.0.1/24"
+        description: "test"
+    pve_netif_bond: 
+      - name: "bond0"
+        address: "10.99.0.0.10/24"
+        interfaces: ["enp1", "enp2"]
+        type: "802.ad"
+        linkctrl: "miimon 100"
+        hash-policy: "layer2"
+        lacp_rate: "1"
+        mtu: "9000" 
+    pve_netif_bridges: 
+      - name: "physiBr"
+        interfaces: ["physi0"]
+        gateway: "10.99.0.1/24"
+        description: "macvtap device for VMs to Access the Physi-Network"
+
+  tasks:
+  - name: Test interfaces.j2
+    template: src=../templates/interfaces.j2 dest=interfaces-template.conf
+  - name: Test link.j2
+    template: src=../templates/link.j2 dest=link-template.conf
+    with_items: 
+      -  "{{ pve_netif_alias }}"
+# ansible-playbook check_templates.yml --check --diff --connection=local
+
