@@ -7,18 +7,18 @@ iface lo inet loopback
 auto {{ interface }}
 iface {{ interface }} inet manual
 {% else %}
-auto {{ interface.name }}
+auto {{ interface.ifname }}
 {% if interface.allow is defined %}
-allow-{{ interface.allow }} {{ interface.name }}
+allow-{{ interface.allow }} {{ interface.ifname }}
 {% endif %}
 {% if interface.address is defined %}
-iface {{ interface.name }} inet static
+iface {{ interface.ifname }} inet static
   address {{ interface.address }}
 {% if interface.gateway is defined %}
   gateway {{ interface.gateway }}
 {% endif %}
 {% else %}
-iface {{ interface.name }} inet manual
+iface {{ interface.ifname }} inet manual
 {% endif %}
 {% if interface.description is defined %}
 # {{ interface.description }}
