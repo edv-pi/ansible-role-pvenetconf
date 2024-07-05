@@ -13,9 +13,9 @@ allow-{{ interface.allow }} {{ interface.ifname }}
 {% endif %}
 {% if interface.address is defined %}
 iface {{ interface.ifname }} inet static
-  address {{ interface.address }}
+    address {{ interface.address }}
 {% if interface.gateway is defined %}
-  gateway {{ interface.gateway }}
+    gateway {{ interface.gateway }}
 {% endif %}
 {% else %}
 iface {{ interface.ifname }} inet manual
@@ -30,19 +30,19 @@ iface {{ interface.ifname }} inet manual
 {% for bond in pve_netif_bond %}
 auto {{ bond.name }}
 iface {{ bond.name }} inet static
-  address {{ bond.address }}
+    address {{ bond.address }}
 {% if bond.interfaces is iterable and not bond.interfaces is string %}
-  bond-slaves {{ " ".join(bond.interfaces) }}
+    bond-slaves {{ " ".join(bond.interfaces) }}
 {% else %}
-  bond-slaves {{ bond.interfaces }}
+    bond-slaves {{ bond.interfaces }}
 {% endif %}
-  bond-mode {{ bond.type | default("active-backup") }}
-  bond-{{ bond.linkctrl | default("miimon 100") }}
+    bond-mode {{ bond.type | default("active-backup") }}
+    bond-{{ bond.linkctrl | default("miimon 100") }}
 {% if bond.type == "802.ad" %}
-  bond-xmit-hash-policy {{ bond.hash_policy | default("layer2") }}
-  bond-lacp-rate {{ bond.lacp_rate | default("1") }}
+    bond-xmit-hash-policy {{ bond.hash_policy | default("layer2") }}
+    bond-lacp-rate {{ bond.lacp_rate | default("1") }}
 {% endif %}
-  mtu {{ bond.mtu | default("1500") }}
+    mtu {{ bond.mtu | default("1500") }}
 {% endfor %}
 {% endif %}
 {% if pve_netif_bridges is defined %}
@@ -50,23 +50,23 @@ iface {{ bond.name }} inet static
 auto {{ bridge.name }}
 {% if bridge.address is defined %}
 iface {{ bridge.name }} inet static
-  address {{ bridge.address }}
+    address {{ bridge.address }}
 {% if bridge.gateway is defined %}
-  gateway {{ bridge.gateway }}
+    gateway {{ bridge.gateway }}
 {% endif %}
 {% else %}
 iface {{ bridge.name }} inet manual
 {% endif %}
 {% if bridge.interfaces is iterable and not bridge.interfaces is string %}
-  bridge_ports {{ " ".join(bridge.interfaces) }}
+    bridge_ports {{ " ".join(bridge.interfaces) }}
 {% else %}
-  bridge_ports {{ bridge.interfaces }}
+    bridge_ports {{ bridge.interfaces }}
 {% endif %}
-  bridge_stp off
-  bridge_fd 0
+    bridge_stp off
+    bridge_fd 0
 {% if bridge.vlans is defined %}
-  bridge-vlan-aware yes
-  bridge-vids {{ bridge.vlans }}
+    bridge-vlan-aware yes
+    bridge-vids {{ bridge.vlans }}
 {% endif %}
 {% if bridge.description is defined %}
 # {{ bridge.description }}
