@@ -1,0 +1,61 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# loopback
+auto lo
+iface lo inet loopback
+
+{% for interface in pve_netif %}
+{% if interface is string %}
+auto {{ interface }}
+iface {{ interface }} inet manual
+{% else %}
+auto {{ interface.name }}
+{% if interface.allow is defined %}
+allow-{{ interface.allow }} {{ interface.name }}
+{% endif %}
+{% if interface.address is defined %}
+iface {{ interface.name }} inet static
+  address {{ interface.address }}
+{% if interface.gateway is defined %}
+  gateway {{ interface.gateway }}
+{% endif %}
+{% else %}
+iface {{ interface.name }} inet manual
+{% endif %}
+{% if interface.description is defined %}
+#{{ interface.description }}
+{% endif %}
+{% endif %}
+
+{% endfor %}
+{% for bridge in pve_netif_bridges %}
+auto {{ bridge.name }}
+{% if bridge.address is defined %}
+iface {{ bridge.name }} inet static
+  address {{ bridge.address }}
+{% if bridge.gateway is defined %}
+  gateway {{ bridge.gateway }}
+{% endif %}
+{% else %}
+iface {{ bridge.name }} inet manual
+{% endif %}
+{% if bridge.interfaces is list %}
+  bridge_ports {{ " ".joing(bridge.interfaces) }}
+{% else %}
+  bridge_ports {{ bridge.interfaces }}
+{% endif %}
+  bridge_stp off
+  bridge_fd 0
+{% if bridge.vlans is defined %}
+  bridge-vlan-aware yes
+  bridge-vids {{ bridge.vlans }}
+{% endif %}
+{% if bridge.description is defined %}
+#{{ bridge.description }}
+{% endif %}
+
+{% endfor %}
+
+# Add support for Proxmox SDN
+source /etc/network/interfaces.d/*

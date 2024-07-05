@@ -1,0 +1,11 @@
+[Match]
+{% if item.mac_address is defined %}
+MACAddress={{ item.mac_address }}
+{% endif %}
+{% if item.driver is defined %}
+Driver={{ item.driver }}
+{% endif %}
+
+[Link]
+Name={{ item.interface_name }}
+MACAddressPolicy=persistent

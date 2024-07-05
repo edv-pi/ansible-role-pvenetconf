@@ -1,0 +1,9 @@
+---
+- name: Check system OS
+  ansible.builtin.fail:
+    msg: "Cannot Proceed. Expected Debian"
+  when: ansible_distribution != "Debian"
+
+- name: Configure networking
+  ansible.builtin.include_tasks: config-network.yml
+  when: pve_netif is defined and pve_netif_bridges is defined

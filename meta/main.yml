@@ -1,0 +1,23 @@
+galaxy_info:
+  author: Tobias Müller
+  description: Configure Network for Proxmox VE-Cluster
+  namespace: tmueller
+  role_name: pvenetconf
+  license: "MIT"
+  min_ansible_version: "2.14"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+
+  galaxy_tags:
+    - proxmox
+    - virtualization
+    - cluster
+    - pve
+    - kvm
+    - Network
+
+dependencies: []

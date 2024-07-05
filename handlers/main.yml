@@ -1,0 +1,8 @@
+- name: Reboot host
+  ansible.builtin.reboot:
+    pre_reboot_delay: 1
+
+- name: Restart network interfaces
+  ansible.builtin.systemd_service:
+    name: networking
+    state: restarted
