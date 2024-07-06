@@ -3,6 +3,7 @@
     pve_netif_alias:
       - ifname: "physi0"
         mac: "AA:BB:CC:DD:EE:FF"
+        mtu: 9000
     pve_netif:
       - name: "physi0"
         address: "10.0.0.10/24"
@@ -14,7 +15,7 @@
         interfaces: ["enp1", "enp2"]
         type: "802.ad"
         linkctrl: "miimon 100"
-        hash-policy: "layer2"
+        hash-policy: "layer3+4"
         lacp_rate: "1"
         mtu: "9000" 
     pve_netif_bridges: 
