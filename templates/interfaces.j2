@@ -5,7 +5,9 @@ iface lo inet loopback
 {% for interface in pve_netif %}
 {% if interface is string %}
 auto {{ interface }}
+
 iface {{ interface }} inet manual
+
 {% else %}
 auto {{ interface.ifname }}
 {% if interface.allow is defined %}
