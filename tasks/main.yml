@@ -8,6 +8,7 @@
   ansible.builtin.apt:
     name: bridge-utils
     state: present
+    update_cache: true
 
 - name: Configure networking
   ansible.builtin.include_tasks: config-network.yml
