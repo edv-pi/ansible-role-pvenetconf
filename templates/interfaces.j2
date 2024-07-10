@@ -10,9 +10,11 @@ iface {{ interface }} inet manual
 
 {% else %}
 auto {{ interface.ifname }}
+
 {% if interface.allow is defined %}
 allow-{{ interface.allow }} {{ interface.ifname }}
-{% endif %}
+{% endif %}{{''}}
+
 {% if interface.address is defined %}
 iface {{ interface.ifname }} inet static
     address {{ interface.address }}
