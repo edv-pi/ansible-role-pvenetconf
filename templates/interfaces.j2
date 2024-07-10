@@ -58,15 +58,15 @@ iface {{ bridge.name }} inet static
 iface {{ bridge.name }} inet manual
 {% endif %}
 {% if bridge.interfaces is iterable and not bridge.interfaces is string %}
-    bridge_ports {{ " ".join(bridge.interfaces) }}
+        bridge_ports {{ " ".join(bridge.interfaces) }}
 {% else %}
-    bridge_ports {{ bridge.interfaces }}
+        bridge_ports {{ bridge.interfaces }}
 {% endif %}
-    bridge_stp off
-    bridge_fd 0
+        bridge_stp off
+        bridge_fd 0
 {% if bridge.vlans is defined %}
-    bridge-vlan-aware yes
-    bridge-vids {{ bridge.vlans }}
+        bridge-vlan-aware yes
+        bridge-vids {{ bridge.vlans }}
 {% endif %}
 {% if bridge.description is defined %}
 # {{ bridge.description }}
