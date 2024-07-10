@@ -2,7 +2,7 @@
 auto lo
 iface lo inet loopback
 
-{% for interface in pve_netif %}
+{% for interface in pve_netif_alias %}
 {% if interface is string %}
 auto {{ interface }}
 iface {{ interface }} inet manual
