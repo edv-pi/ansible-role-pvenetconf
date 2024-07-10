@@ -5,25 +5,21 @@ iface lo inet loopback
 {% for interface in pve_netif %}
 {% if interface is string %}
 auto {{ interface }}
-
 iface {{ interface }} inet manual
-
 {% else %}
 auto {{ interface.ifname }}
-
 {% if interface.allow is defined %}
 allow-{{ interface.allow }} {{ interface.ifname }}
 {% endif %}{{''}}
-
 {% if interface.address is defined %}
 iface {{ interface.ifname }} inet static
     address {{ interface.address }}
 {% if interface.gateway is defined %}
     gateway {{ interface.gateway }}
-{% endif %}
+{% endif %}{{''}}
 {% else %}
 iface {{ interface.ifname }} inet manual
-{% endif %}
+{% endif %}{{''}}
 {% if interface.description is defined %}
 # {{ interface.description }}
 {% endif %}
