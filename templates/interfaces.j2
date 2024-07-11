@@ -44,7 +44,7 @@ iface {{ bond.name }} inet static
 {% endif %}
     mtu {{ bond.mtu | default("1500") }}
 {% endfor %}
-{% endif %}
+{% endif %}{{''}}
 {% if pve_netif_bridges is defined %}
 {% for bridge in pve_netif_bridges %}
 auto {{ bridge.name }}
