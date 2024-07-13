@@ -6,7 +6,9 @@
 
 - name: Install bridge-utils
   ansible.builtin.apt:
-    name: bridge-utils
+    name: 
+      - bridge-utils
+      - ifenslave
     state: present
     update_cache: true
 
