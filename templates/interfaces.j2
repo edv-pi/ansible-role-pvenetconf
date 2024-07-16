@@ -38,11 +38,12 @@ iface {{ bond.name }} inet static
 {% endif %}
     bond-mode {{ bond.type | default("active-backup") }}
     bond-{{ bond.linkctrl | default("miimon 100") }}
-{% if bond.type == "802.ad" %}
+{% if bond.type == "802.3ad" %}
     bond-xmit-hash-policy {{ bond.hash_policy | default("layer2") }}
     bond-lacp-rate {{ bond.lacp_rate | default("1") }}
 {% endif %}
     mtu {{ bond.mtu | default("1500") }}
+    # {{ bond.description | default("INSERT DESCRIPTION HERE") }}
 {% endfor %}
 {% endif %}{{''}}
 {% if pve_netif_bridges is defined %}
