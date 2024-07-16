@@ -149,5 +149,7 @@ MIT
 #### Platforms
 
 - **Debian**: ['bookworm', 'bullseye']
+#### Thanks to
+- https://github.com/exaluc/docsible
 
 <!-- DOCSIBLE END -->
