@@ -110,23 +110,12 @@ classDef includeVars stroke:#8e44ad,stroke-width:2px;
 ```yml
 # code language=ansible
 
-- name: Update Known hosts
-  ansible.builtin.import_playbook: playbooks/update_known_hosts.yaml
-- name: Add sudo and sudoers
-  ansible.builtin.import_playbook: playbooks/sudoers.yaml
-
-- name: Configure NTP and Timezone
-  hosts: all
+- name: Deploy/configure PVE-Cluster
+  hosts: physiHA
   become: true
   become_method: ansible.builtin.sudo
   roles:
-    - geerlingguy.ntp
-
-- name: Setup Base OS with always wanted packages
-  ansible.builtin.import_playbook: playbooks/setup_base.yaml
-
-- name: Deploy/Configure Cluster (or single Node depend)
-  ansible.builtin.import_playbook: playbooks/cluster.yaml
+    - role: tmueller.pvenetconf
 
 ```
 ## Playbook graph
