@@ -4,12 +4,16 @@ iface lo inet loopback
 
 {% for interface in pve_netif_alias %}
 {% if interface is string %}
+{% if interface.required is defined %}
 auto {{ interface }}
+{{''}}{% endif %}
 iface {{ interface }} inet manual
 {{''}}{% else %}
+{% if interface.required is defined %}
 auto {{ interface.ifname }}
 {% if interface.allow is defined %}
 allow-{{ interface.allow }} {{ interface.ifname }}
+{{''}}{% endif %}
 {{''}}{% endif %}{{''}}
 {% if interface.address is defined %}
 iface {{ interface.ifname }} inet static
@@ -44,8 +48,9 @@ iface {{ bond.name }} inet static
 {% endif %}
     mtu {{ bond.mtu | default("1500") }}
     # {{ bond.description | default("INSERT DESCRIPTION HERE") }}
+
 {% endfor %}
-{% endif %}{{''}}
+{% endif %}
 {% if pve_netif_bridges is defined %}
 {% for bridge in pve_netif_bridges %}
 auto {{ bridge.name }}
